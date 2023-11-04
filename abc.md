@@ -3,7 +3,7 @@
 	it is a style of programming
 	we describe how a program should accomplish a task
 	we describe every step by step
-- ##### What declarative programming?
+- ##### ==What declarative programming?==
 	it is a style of programming
 	we describe what you want the program to accomplish
 	
@@ -76,14 +76,20 @@
 	for example,
 	some developers think 
 	JSX is a part of JS or browser, so that JS engine or browser can understand JSX.
-	like how junior developers think DOM API is a part of JS in the begining
+	like how junior developers think DOM API is a part of JS in the beginning
 	
 	some developers memorize the rules of hooks,
-	but you do not actually have to memorize it once you understand How Fiber Tree and Fiber Node works.
+	we know that we should not call hook functions inside conditionals or loops 
+	and we can only call them at the top level 
+	because order of execution of hooks matter
+	
+	but junior developers do not often know why it matters, so they memorize the rule
+	but you do not actually have to memorize it 
+	once you understand Hooks are stored as a linked list on the Fiber Node
 	
 	and even tho we developers do not have to write code in the imperative way
 	we need to have in-depth knowledge of React's internal workings, like its reconciliation algorithm and Fiber engine
-	to optimize performance in complex applications
+	to optimize performance or to debug in complex applications
 - ##### ==Disadvantages of React==
 	it is very easy to use
 	because it is declarative,
@@ -123,7 +129,6 @@
 	to optimize performance or to debug in complex applications
 	
 	but its abstraction often distract developers
-	So i think one of disadvantages of React
 - ##### What is the difference between React and React DOM?  
 	**React** is a core library 
 	
@@ -136,7 +141,6 @@
 	
 	on the other hand,
 	
-	
 	React DOM is a DOM-specific library 
 	
 	ReactDOM helps components to be rendered on DOM
@@ -148,7 +152,7 @@
 	we use the function to render a React element into the DOM.
 	it return a reference to the component. 
 	If the React element was previously rendered into the container,
-	it will perform an update on i
+	it will perform an update on it
 # JSX
 - ##### Whta is JSX?
 	we can define a tree 
@@ -201,10 +205,10 @@
 	JSX Fragments don't create a new DOM element to group elements
 	so it dose not hurt the styling 
 	or add unnecessary complexity to our component tree
-- ##### JSX Expression / Primary Expression
+- JSX Expression / Primary Expression
 	we can inject the actual JS code inside of JSX 
 	Using curly braces
-- ##### What is transpiler?
+- What is transpiler?
 	transpiler 
 	converts 
 	the text of code written in one syntax 
@@ -263,34 +267,22 @@
 	then, React looks at the React element tree and DOM tree
 	to update DOM in the most efficient way possible.
 	it it called reconciliation
-	reconciliation is one of the things that React really cares about.
-	and React even has an engine, reconciler, for it, it is called Fiber
-	and React's reconciliation algorithm using Fiber Tree is really smart.
-	Fiber Tree also sticks around so that we can store data such as props and states
+	
+	reconciliation is about traversing a tree
+	React traverses trees and compare them 
+	by the end of tree traversing,  
+	React knows how the DOM tree should look like and the minimal set of changes to update DOM tree
+	so a renderer like react-dom or react-native applies the changes to update the UI
 - ##### What is reconciliation?
 	so React really cares about how to update DOM in the most efficient way
 	reconciliation is one of the things that React really cares about.	
 	
 	reconciliation is about traversing a tree
-	React traverses trees and compare them by the end of tree traversing,  
+	React traverses trees and compare them 
+	by the end of tree traversing,  
 	React knows how the DOM tree should look like and the minimal set of changes to update DOM tree
 	so a renderer like react-dom or react-native applies the changes to update the UI
-	
-	So it is really important for React to have a fast and efficient traversal algorithm
-	
-	React uses the Fiber Tree as part of its reconciliation process.
-	so React really cares about how to update DOM in the most efficient way
-	reconciliation is one of the things that React really cares about.	
-	
-	reconciliation is about traversing a tree
-	React traverses trees and compare them by the end of tree traversing,  
-	React knows how the DOM tree should look like and the minimal set of changes to update DOM tree
-	so a renderer like react-dom or react-native applies the changes to update the UI
-	
-	So it is really important for React to have a fast and efficient traversal algorithm
-	
-	React uses the Fiber Tree as part of its reconciliation process.
-- ##### What is Fiber Tree?
+- ##### ==What is Fiber Tree?==
 	React deals with 3 trees
 	
 	a DOM tree
@@ -344,7 +336,7 @@
 	so, workInProgress becomes current and current becomes workInProgress.  
 	
 	so Fiber Node helps React traverse trees
-	but actually Fiber Node is much useful than that, it helps React to split the rendering work 
+	but not only that it also helps React to split the rendering work 
 	
 	actually React used to have a stack reconciler before Fiber
 	it worked well but it caused frames to drop  
@@ -479,44 +471,14 @@
 	Rendering in React has 2 phases
 	
 	1.render/reconciliation phase
-	so React really cares about how to update DOM in the most efficient way
-	reconciliation is one of the things that React really cares about.	
 	
 	reconciliation is about traversing a tree
 	React traverses trees and compare them by the end of tree traversing,  
 	React knows how the DOM tree should look like and the minimal set of changes to update DOM tree
-	so a renderer like react-dom or react-native applies the changes to update the UI
 	
-	So it is really important for React to have a fast and efficient traversal algorithm
-	
-	React uses the Fiber Tree as part of its reconciliation process.
-	Fiber Tree consists of Fiber Nodes, Fiber Node is an object  
-	Fiber tree is not destroyed nor re-created unlike React element tree, it is updated.
-	
-	So React uses Fiber Node to store data as props, states and a reference to the corresponding DOM element  
-	  
-	Fiber Node have two states, current and work-in-progress
-	so Fiber Node is either current or work-in-progress
-	the current essentially matches the current state of the DOM
-	the work-in-progress matches the latest state of the React element tree
-	
-	so we can say that 
-	React takes the branches of the React Element Tree that have changed
-	and attaches them to the Fiber Tree as a work-in-progress branch.
-	and both current and work-in-process nodes have a reference to one another as an alternative.
-	
-	so React can jump back and forth between them when comparing them.
-	React can discover what changes are made by comparing the current and work-in-progress.  
-	  
-	React also reuses the old current after it discovers all the changes, React swaps workInProgress and current  
-	so, workInProgress becomes current and current becomes workInProgress.  
-	
-	this is the reconciliation phase,
-	  
 	2.commit phase
 	
 	By the end of the reconciliation,  
-	React knows how the DOM tree should look like and the minimal set of changes to update DOM tree
 	so a renderer like react-dom or react-native applies the changes to update the UI
 	
 	that is the commit phase
@@ -535,7 +497,7 @@
 	it is updating phase.
 	
 	Unmounting,
-	when component is removed from the component tree
+	when component is removed from the latest state of React element tree
 	the corresponding Dom nodes are removed, 
 	then we cay say the component is unmounted.
 	
@@ -562,8 +524,23 @@
 	componentWillUnmount  
 	This method is called just before a component is removed from the DOM.  
 	to clean up resources like event listeners
+- ##### ==What is Virtual DOM?==
+	The virtual DOM (VDOM) is a general programming concept  
+    The virtual DOM is the representation of a UI  
+    The virtual DOM is synced with the “real” DOM  
+      
+      
+    Virtual DOM is more of a pattern/concept than a specific technology  
+      
+    But, when it comes to React,  
+    Virtual DOM is usually associated with [React elements](https://legacy.reactjs.org/docs/rendering-elements.html) since they are the objects representing the user interface.  
+      
+    however,  
+    Fiber Tree also holds additional information about the React Element tree such as props and states and so on  
+      
+    They can also be considered a part of “virtual DOM” implementation in React.
 # State
-- ##### What is State?
+- ##### ==What is State?==
 	State is data that represents the current state of the system.
 	we can say that UI reflects the state of the system
 	
@@ -604,13 +581,12 @@
 	they provide useful functionalities such as caching and good error handling
 - ##### What is Recoil?
 	it is a state management library.
-	
+	Recoil is simple to use and intuitive to manage and share state.
+	 
 	Recoil optimizes re-renders
 	it tracks dependencies between components and state atoms.
 	so that only the components affected by state changes are re-rendered.
-	
-	and Recoil is simple to use and intuitive to manage and share state.
-- How can we keep the immutability of State
+- How can we keep the immutability of State?
 	avoid mutating the object 
 	create a new object and make changes to the object
 	
@@ -621,7 +597,7 @@
 	if the objects have the different reference
 	React thinks the state is changed.
 # Component
-- ##### What is a component?
+- ##### ==What is a component?==
 	component is a function
 	that returns React elements
 	Component is a building block for the React application  
@@ -677,7 +653,7 @@
 	but if we de-structure the values out of the props object
 	we are basically assigning the value to another variable
 	and we can change the newly created variable
-- ##### ===difference between props and states?===
+- ##### difference between props and states?
 	State is data that represents the current state of the system.
 	we can say that UI reflects the state of the system
 	
@@ -724,7 +700,7 @@
 	so we are recommended not to use Index as a key prop
 	we can only use index as a key
 	when we are certain that the list will be static and never be re-ordered or filtered.
- - ##### What is uni directional data?
+- ##### ==What is uni directional data?==
 	Data can only move in one direction
 	
 	Data only moves down the tree
@@ -749,19 +725,27 @@
 	
 	or we can make use of a state manage libraries such as a recoil to manage states as a global state
 ## Context API
-- ##### What is Context API?
+- ##### ==What is Context API?==
 	we can use Context API to share stats across multiple components
 	without having to pass states down manually at every level.
 	we can use Context API to solve prop drilling
 - ##### ==What is the disadvantages of Context API?==
 	all components inside of Provider re-renders when the value props changes regardless of whether they use that specific value. 
-	so we might cause unnecessary re-renders
+	
+	it might be confusing at first 
+	because we say the children re-render when the value props changes even tho they do not use the props
+	
+	but actually it is wrong. 
+	the children re-render because the parent re-renders, 
+	so actually we can say that the components that use value props re-render 
+	not necessarily because the props has changed 
+	but because the parent component re-renders
+	
+	However, if we use context API over multiple layers
+	so we might cause unnecessary re-renders in every layer
 	
 	to solve such a problem
-	
 	we can split contexts into smaller pieces
-    
-    or we can use state management libraries to handle states as a global state
 - ##### What is the difference between Context API and State management libraries?
 	they look like they serve the same purpose
 	they are essentially different, their focus is different
@@ -773,7 +757,7 @@
     
     State management libraries such as Recoil is focused on managing states in an efficient way
 # Class Component
-- ##### difference between Class Component and Function Component?
+- ##### ==difference between Class Component and Function Component?==
 	syntax is different
 	
 	we define functional components with function
@@ -947,7 +931,7 @@
 	but then 
 	we needed to introduce unnecessary layers in our component tree.
 	so it made the component tree complex and harder to manage.
-- ##### Do Hooks cover all use cases for classes?
+- ##### ==Do Hooks cover all use cases for classes?==
 	React Docs say that there are some of lifecyce methods that hooks can’t cover
 	
 	getSnapshotBeforeUpdate, getDerivedStateFromError, componentDidCatch
@@ -968,7 +952,7 @@
 - What is side effects in a component?
 	side effects are tasks that have nothing to deal with rendering 
 	such as data fetching, setting up document title, manipulating DOM
-- the difference between useEffect and useLayoutEffect
+- the difference between useEffect and useLayoutEffect?
 	we use them to handle side effects in functional components.
 	
 	they differ in terms of when they are executed and how they can impact the rendering process.
@@ -1018,7 +1002,6 @@
 	setState signals to React that the state has changed,  
 	Without setState, React doesn't know the state is changed.
 	
-	
     React group multiple setState calls into a single update for better performance if possible
     this minimizes unnecessary re-renders.  
     
@@ -1026,7 +1009,7 @@
     so the state may not change immediately after setState() is called. 
     so when updating a state depends on the previous state  
     we better make use of a updater function
-- Types of Hooks?
+- ==Types of Hooks?==
 	useState to manage states
 	
 	useReducer to manage complex states with complex logic
@@ -1044,10 +1027,9 @@
 	but it runs synchronously immediately after the rendering but before the browser paints the screen. 
 	we use `useLayoutEffect` when we handle synchronous side effect that interacts with the layout, like measuring DOM elements.
      
-	useContext to access to the context values defined by a Context Provider.    
-	
+	useContext to access to the context values defined by a Context Provider.    	
 # CSR
-- ##### What is SSR?
+- ##### ==What is SSR?==
 	SSR stands for Server-Side Rendering
 	
 	basically rendering happens on the server-side
@@ -1062,7 +1044,7 @@
 	
 	also Search engines can easily crawl web pages 
 	since browsers receive a fully constructed HTML page from the server in the initial response
-- ##### What is CSR?
+- ##### ==What is CSR?==
 	CSR stands for Client-Side Rendering, 
 	
 	basically rendering happens on the client-side
@@ -1077,7 +1059,7 @@
 	Users can navigate between pages without page being fully reloaded
 	
 	also CSR can reduce server load. the server doesn't need to pre-render HTML for each page request.
-- ##### What is Client-Side-Routing?
+- ##### ==What is Client-Side-Routing?==
 	basically, we handle navigation within a browser on the client side
 	
 	Instead of sending a request to the server for each page change, 
@@ -1086,6 +1068,44 @@
 	this way, users can have a smoother and more interactive user experience since Users can navigate between pages without page being fully reloaded
 	
 	one challenge is that search engines cannot index the URLs since changes to the URL don't necessarily result in a new request to the server.
+- ##### ==What dose `react-dom/server` package do? / What are `react-dom/server` APIs for?==
+	The react-dom/server APIs helps us to render React components on the server.  
+	we use such APIS to to generate the initial HTML.  
+	we do not often use such API directly
+	Frameworks such as Next.js and Remix make use of such APIs  
+- ##### ==When do you use hydrateRoot?==
+	We can use hydrateRoot  
+	to display React components inside a browser DOM node whose HTML content was previously generated (on the server side) by react-dom/server.
+	
+	(React will attach to the HTML that exists inside the domNode,  
+	and take over managing the DOM inside it.  
+	hydrateRoot() expects the rendered content to be identical with the server-rendered content.)  
+- ##### ==What is hydration?==
+	hydration is the process of converting pre-rendered HTML from the server into a fully interactive application.  
+	
+	So first, 
+	
+	the server sends the fully rendered HTML to the client, this is called server-side rendering.  
+	After the initial server-side rendering, when the page reaches the client-side (browser).  
+	React needs to take over to make the page interactive.  
+	So React will "hydrate" the HTML sent by the server,  
+	by attaching event listeners and setting up the virtual DOM to manage updates.  
+	
+	This approach combines the benefits of both server-side rendering and client-side rendering.
+- ##### ==What is Hydration mismatch?==
+	hydration mismatch refers to a situation  
+	when we have a mismatch between the server-rendered HTML and the client-
+	side rendered content during the hydration process.
+	
+	This can lead to unexpected errors  
+	for examples, event handlers can get attached to the wrong elements.
+	
+	So we need to fix them by finding the reasons behind
+	
+	Hydration mismatch often happens  
+	when we use browser-only APIs in rendering logic.
+	Or when we use browser-environment-specific checks (e.g. typeof window !== 'undefined’) in rendering logic.  
+	or when we render different data on the server and the client.
 # Controlled and uncontrolled components
 - ##### What is Controlled components?
 	In controlled components, 
@@ -1111,7 +1131,7 @@
 	by getting a reference to the form element instead of directly managing the value through state
 - What is the difference between controlled and uncontrolled components?
 # Memoization
-- ##### What is Memoization in React?/ How Memoization work in React?
+- ##### ==What is Memoization in React?/ How Memoization work in React?==
 	Memoization is a technique to optimize the performance of a component 
 	
 	React cache the results of expensive calculations 
@@ -1135,9 +1155,9 @@
 	so that we do not re-create the same function 
 	every time component re-renders
 	
-	when we pass a function to a child component
+	when we pass a function to an optimized child component
 	every time the parent component re-renders, we also re-create functions
-	so when we pass a function as a prop and it leads to re-rendering of a child component as well.
+	so when we pass a function as a prop and it leads to re-rendering of a memoized child component as well.
 	
 	in such cases, we can use useCallback to prevent unnecessary re-renders.
 	
@@ -1240,7 +1260,7 @@
 	
 	So that our code always works.
 # React 18
-- ##### What is React.StrictMode? why dose it render twice?
+- ##### ==What is React.StrictMode? why dose it render twice?==
 	`React.StrictMode` is a tool(component) in React
 	it helps us 
 	to catch and identify potential issues 
@@ -1260,7 +1280,7 @@
 	`React.StrictMode` is used in development process 
 	to catch and identify potential issues 
 	so they don't impact the performance of your production application.
-- ##### What are the features of React 18?
+- ##### ==What are the features of React 18?==
 	**Concurrent rendering.**
 
 	React now renders concurrently in the background without blocking the main thread.  
@@ -1308,7 +1328,7 @@
 	This is when **useDeferredValue** can be used.
 	we wrap the value inside the hook.
 # Additional
-- ##### What is webpack?
+- ##### ==What is webpack?==
 	Webpack is a module builder
 	so Webpack is used to bundle multiple modules, scripts, and assets 
 	into a single or multiple output files
@@ -1347,7 +1367,7 @@
 	
 	this allows us to separate the loading phase and the actual content,
 	this helps us to have more organized code.
-- ##### What is import(), what is lazy()?
+- ##### ==What is import(), what is lazy()?==
 	we use import to dynamically load modules
 	dynamic import enables code splitting and lazy loading
 	
@@ -1393,6 +1413,8 @@
 	if it defines a new lifecycle method called componentDidCatch(error, info) or static getDerivedStateFromError() :
 # Testing
 # Additional2
+- ==What is Expo?==
+	Expo is a React framework for building universal Android, iOS, and web apps.
 - What are the different ways to style a React component?
 	Inline Styling  
 	JavaScript object
@@ -1421,7 +1443,7 @@
 	we can use various techniques  
 	such as conditional rendering and routing
 	or an object, we can map certain values to components.
-- **What is React Router?**
+- What is React Router?
 	React Router is a library for routing in React.  
 	we can build a single-page web application in React.  
 	with React Router, we can navigate pages without refreshing.  
@@ -1431,7 +1453,7 @@
 	react docs recommends to use Function components over Class components. 
 	But If we want to make use of functionalities that hook cannot cover yet
 	we can use class component
-- **What is children prop?**
+- What is children prop?
 	We can pass components as a prop to other components
 	And it is called children.
 	We put children between component's opening and closing tag  
@@ -1504,7 +1526,7 @@
 - Why do you not need error boundaries for event handlers?
 	Error boundaries do not catch errors inside event handlers.
 	React doesn’t need error boundaries to recover from errors in event handlers. Unlike the render method and lifecycle methods, the event handlers don’t happen during rendering. So if they throw, React still knows what to display on the screen.
-- What is NextJS and major features of it?
+- ==What is NextJS and major features of it?==
 	Next.js is a popular framework for static and server‑rendered application.
 	it supports Server-rendering
 	Automatic code splitting for faster page loads
@@ -1514,27 +1536,31 @@
 	- Asynchronous code using **setTimeout or requestAnimationFrame** callbacks
 	- During Server side rendering
 	- When errors thrown in the error boundary code itself
-- Can you describe about componentDidCatch lifecycle method signature?
+- ==Can you describe about componentDidCatch lifecycle method signature?==
 	The **componentDidCatch** lifecycle method is invoked 
 	after an error has been thrown by a descendant component.
 - What is React lazy function?
 	React.lazy function lets you render a dynamic import as a regular component. 
-- What is Shallow Renderer in React testing
+- ==What is Shallow Renderer in React testing==
 	Shallow rendering is useful for writing unit test cases in React. 
 	It lets you render a component _one level deep_ 
 	and assert facts about what its render method returns, 
 	without worrying about the behavior of child components, which are not instantiated or rendered.    
-- How to listen to state changes?
+- ==How to listen to state changes?==
 	we can use componentDidUpdate lifecycle method
 	it is called when state changes. 
 	or we can use useEffect and have the states i want to listen to inside the dependency array
 - How to re-render the view when the browser is resized?
 	You can use the useState hook to manage the width and height state variables, 
 	and the useEffect hook to add and remove the resize event listener.
-- What are the lifecycle methods going to be deprecated in React v16?
+- ==What are the lifecycle methods going to be deprecated in React v16?==
 	componentWillMount()
 	componentWillUpdate()
 - How do you memoize a component
 	we have a React.memo. 
 	we wrap the component using React.memo
 	It provides a higher order component which memoizes component unless the props change. 
+- ==What is Vite?==
+	Vite is a build tool and development server
+	It's designed to make development fast and efficient 
+	by providing development server startup 
